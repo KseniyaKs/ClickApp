@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/screen_navigation"
+    app:startDestination="@+id/menu_fragment">
+
+    <fragment
+        android:id="@+id/menu_fragment"
+        android:name="com.example.clickapp.presentation.menu.MenuFragment"
+        android:layout="@layout/fragment_menu">
+
+        <action
+            android:id="@+id/action_menu_to_start_game"
+            app:destination="@id/game_fragment" />
+
+        <action
+            android:id="@+id/action_menu_to_result"
+            app:destination="@id/result_fragment" />
+
+        <action
+            android:id="@+id/action_menu_to_politics"
+            app:destination="@id/politic_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/game_fragment"
+        android:name="com.example.clickapp.presentation.game.GameBallFragment"
+        android:layout="@layout/fragment_game_ball">
+
+        <action
+            android:id="@+id/action_game_to_end_game"
+            app:destination="@id/end_game_dialog" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/result_fragment"
+        android:name="com.example.clickapp.presentation.result.ResultFragment"
+        android:layout="@layout/fragment_result">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/politic_fragment"
+        android:name="com.example.clickapp.presentation.politic.PoliticFragment"
+        android:layout="@layout/fragment_politic">
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/end_game_dialog"
+        android:name="com.example.clickapp.presentation.game.end_game.EndGameDialogFragment"
+        android:layout="@layout/fragment_end_game_dialog">
+
+        <argument
+            android:name="result_time"
+            app:argType="string" />
+    </dialog>
+
+</navigation>
