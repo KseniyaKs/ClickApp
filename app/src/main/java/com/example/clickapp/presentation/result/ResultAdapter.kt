@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickapp.R
+import com.example.clickapp.presentation.database.WinerEntity
 
-class ResultAdapter(private val results: List<String>) :
+class ResultAdapter(private val results: List<WinerEntity>) :
     RecyclerView.Adapter<ResultAdapter.ResultViewHolder>() {
 
     class ResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,6 +29,6 @@ class ResultAdapter(private val results: List<String>) :
     override fun getItemCount(): Int = results.size
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-        holder.name.text = results[position]
+        holder.name.text = results[position].name
     }
 }

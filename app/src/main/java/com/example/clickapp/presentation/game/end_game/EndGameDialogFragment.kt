@@ -1,29 +1,25 @@
 package com.example.clickapp.presentation.game.end_game
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.clickapp.R
 import com.example.clickapp.databinding.FragmentEndGameDialogBinding
-import com.example.clickapp.presentation.prefs.ResultPrefs.RESULT_KEY
-import com.example.clickapp.presentation.prefs.ResultPrefs.RESULT_LIST
+import com.example.clickapp.presentation.App
+import com.example.clickapp.presentation.database.AppDatabase
+import com.example.clickapp.presentation.database.WinerEntity
 
 
 class EndGameDialogFragment : DialogFragment(R.layout.fragment_end_game_dialog) {
 
     private val binding: FragmentEndGameDialogBinding by viewBinding()
     private val args: EndGameDialogFragmentArgs by navArgs()
-    private val sharedPreferences: SharedPreferences by lazy {
-        requireActivity().getSharedPreferences(RESULT_KEY, Context.MODE_PRIVATE)
-    }
+    private val db: AppDatabase? by lazy { App.instance?.database }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,14 +36,12 @@ class EndGameDialogFragment : DialogFragment(R.layout.fragment_end_game_dialog) 
                 saveButton.isEnabled = !editTextName.text.isNullOrEmpty()
             }
             saveButton.setOnClickListener {
-                val currentList = sharedPreferences.getString(RESULT_LIST, null)?.let {
-                        "$it, ${editTextName.text}"
-                    } ?: editTextName.text.toString()
-
-                sharedPreferences.edit()
-                    .putString(RESULT_LIST, currentList)
-                    .apply()
-
+                    db?.winerDao()?.insert(
+                        WinerEntity(
+                            name = editTextName.text.toString(),
+                            resultTime = args.resultTime.filter { it.isDigit() }.toInt()
+                        )
+                    )
                 this@EndGameDialogFragment.dismiss()
             }
         }
